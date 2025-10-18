@@ -1,0 +1,369 @@
+public class Actions
+  {
+  private String[][] board = 
+    {
+    {"r", "n", "b", "q", "k", "b", "n", "r"},
+    {"p", "p", "p", "p", "p", "p", "p", "p"},
+    {"o", "o", "o", "o", "o", "o", "o", "o"},
+    {"o", "o", "o", "o", "o", "o", "o", "o"},
+    {"o", "o", "o", "o", "o", "o", "o", "o"},
+    {"o", "o", "o", "o", "o", "o", "o", "o"},
+    {"P", "P", "P", "P", "P", "P", "P", "P"},
+    {"R", "N", "B", "Q", "K", "B", "N", "R"}
+    } ;
+    
+  private final String[] files = {"a", "b", "c", "d", "e", "f", "g", "h"} ;
+
+  private boolean whiteToPlay = true ;
+
+  int row = 0 ;
+  int col = 0 ;
+    
+  ////////////////////////////////////
+    
+  public void print()
+    {
+    for(int i = 0; i < 8; i++)
+      {
+      System.out.print((8 - i) + ".  ") ;
+      for(int j = 0; j < 8; j++)
+        System.out.print(board[i][j] + " ");
+      System.out.println() ;
+      }
+    System.out.println("\n    a b c d e f g h") ;
+    }
+  public boolean validMove()
+  {
+    if(move.length() == 2)
+    {
+    int r = 8 - Integer.parseInt(move.substring(1)) ;
+    int c = search(move.substring(0, 1)) ; 
+    System.out.println(r +" "+ c) ;
+    if(r < 8 && r >= 0)
+      {
+      if(c != -1)
+        {
+        if(!(board[r][c].equals("o")))
+          {
+            return true ;
+          }
+        }
+      } 
+     }
+    return false ;
+  }
+  public boolean type(String move, boolean moving)
+  {
+  if(validMove(move))
+    {
+    if(board[r][c].compareTo("_") < 0 && whiteToPlay)
+      {
+      else
+        {
+        System.out.println("hello") ;
+        if(board[r][c].equals("R"))
+          {
+          if(rookCanMove(r, c, true))
+            return true ;
+          }
+        else if(board[r][c].equals("B"))
+          {
+          System.out.println("martin") ;
+            if(bishopCanMove(r, c, true))
+          return true ;
+          }
+        else if(board[r][c].equals("Q"))
+          {
+          if(rookCanMove(r, c, true) || bishopCanMove(r, c, true))   
+            return true ;
+          }
+          else if(board[r][c].equals("K"))
+            {
+            if(rookCanMove(r, c, true) || bishopCanMove(r, c, true))
+              return true ;
+                  }
+                else if(board[r][c].equals("P"))
+                  {
+                  if(pawnCanMove(r, c, true))
+                    return true ;
+                  }
+                else
+                  {
+                  if(knightCanMove(r, c, true))
+                    return true ;
+                  }
+                }
+                else if(board[r][c].compareTo("_") > 0 && !whiteToPlay)
+                  {
+                  whiteToPlay = !whiteToPlay ;
+                  if(board[r][c].equals("r"))
+                    {
+                    if(rookCanMove(r, c, false))
+                      return true ;
+                    }
+                  else if(board[r][c].equals("b"))
+                    {
+                    if(bishopCanMove(r, c, false))
+                      return true ;
+                    }
+                  else if(board[r][c].equals("Q"))
+                    {
+                    if(rookCanMove(r, c, false) || bishopCanMove(r, c, false))
+                      return true ;
+                    }
+                  else if(board[r][c].equals("K"))
+                    {
+                    if(rookCanMove(r, c, false) || bishopCanMove(r, c, false))
+                      return true ;
+                    }
+                  else if(board[r][c].equals("P"))
+                    {
+                    if(pawnCanMove(r, c, false))
+                      return true ;
+                    }
+                  else
+                    {
+                    if(knightCanMove(r, c, false))
+                      return true ;
+                    }
+                  }
+    return false ;
+    }
+    public int search(String target)
+    {
+      for(int i = 0; i < 8; i++)
+        if(files[i].equals(target))
+          return i ;
+      return -1 ;
+    }
+    
+    ////////////////////////////////////
+    
+    public boolean rookCanMove(int row, int col, boolean isWhite)
+    {
+      String up = "a"  ;
+      String down = "a" ; 
+      String left = "a" ; 
+      String right = "a" ;
+      if(isWhite)
+      {
+      up = "A" ; 
+      down = "A" ; 
+      left = "A" ;
+      right = "A" ;
+      }
+    
+      if(row > 0)
+      {
+        up = board[row - 1][col]  ;
+        if(up.equals("o"))
+          return true ;
+      }
+      if(row < 7)
+      {
+        down = board[row + 1][col] ;
+        if(down.equals("o"))
+          return true ;
+      }
+      if(col > 0)
+      {
+        left = board[row][col - 1] ;
+        if(left.equals("o"))
+          return true ;
+      }
+      if(col < 7)
+      {
+        right = board[row][col + 1] ;
+        if(right.equals("o"))
+          return true ;
+      }
+
+    if(isWhite)
+    {
+    if(up.compareTo("_") > 0 || down.compareTo("_") > 0 || left.compareTo("_") > 0 || right.compareTo("_") > 0)
+      return true ;
+    }
+    else
+    {
+      if(up.compareTo("_") < 0 || down.compareTo("_") < 0 || left.compareTo("_") < 0 || right.compareTo("_") < 0)
+      return true ;
+    }
+    return false ;
+    }
+
+    
+    public boolean bishopCanMove(int row, int col, boolean isWhite)
+    {
+      String upLeft = "a"  ;
+      String downLeft = "a" ; 
+      String upRight = "a" ; 
+      String downRight = "a" ;
+      if(isWhite)
+      {
+        upLeft = "A" ; 
+        downLeft = "A" ; 
+        upRight = "A" ;
+        downRight = "A" ;
+      }
+
+        if(row > 0 && col > 0)
+        {
+          upLeft = board[row - 1][col - 1]  ;
+          if(upLeft.equals("o"))
+            return true ;
+        }
+        if(row < 7 && col > 0)
+        {
+          downLeft = board[row + 1][col - 1] ;
+          if(downLeft.equals("o"))
+            return true ;
+        }
+        if(row > 0 && col < 7)
+        {
+          upRight = board[row - 1][col + 1] ;
+          if(upRight.equals("o"))
+            return true ;
+        }
+        if(row < 7 && col < 7)
+        {
+          downRight = board[row + 1][col + 1] ;
+          if(downRight.equals("o"))
+            return true ;
+        }
+
+      if(isWhite)
+      {  
+      if(upLeft.compareTo("_") > 0|| downLeft.compareTo("_") > 0 || upRight.compareTo("_") > 0 || downRight.compareTo("_") > 0)
+        return true ;
+      }
+      else
+      {
+        if(upLeft.compareTo("_") < 0|| downLeft.compareTo("_") < 0 || upRight.compareTo("_") < 0 || downRight.compareTo("_") < 0)
+        return true ;
+      }
+      return false ;
+    }
+    public boolean pawnCanMove(int row, int col, boolean isWhite)  
+    {
+      if(isWhite)
+      {
+        String upLeft = "!" ;
+        String upRight = "!" ;
+        String up = board[row - 1][col] ;
+        if(col > 0)
+          upLeft = board[row - 1][col - 1] ;
+        if(col < 7)
+          upRight = board[row - 1][col + 1] ;
+        if(up.equals("o"))
+          return true ;
+        if(upLeft.compareTo("_") > 0 && !(upLeft.equals("o")))
+          return true ;
+        if(upRight.compareTo("_") > 0 && !(upRight.equals("o")))
+          return true ;
+      }
+      else
+      {
+        String downLeft = "|" ;
+        String downRight = "|" ;
+        String down = board[row + 1][col] ;
+        if(col > 0)
+          downLeft = board[row + 1][col - 1] ;
+        if(col < 7)
+          downRight = board[row + 1][col + 1] ;
+        if(down.equals("o"))
+          return true ;
+        if(downLeft.compareTo("_") < 0 && !(downLeft.equals("o")))
+          return true ;
+        if(downRight.compareTo("_") < 0 && !(downRight.equals("o")))
+          return true ;
+      }
+      return false ;
+    }
+    public boolean knightCanMove(int row, int col, boolean isWhite)
+    {
+      String[] moves = new String[8] ;
+      if(isWhite)
+      {
+        for(int i = 0; i < moves.length; i++)
+          moves[i] = "!" ;
+      }
+      else
+      {
+        for(int i = 0; i < moves.length; i++)
+          moves[i] = "|" ;
+      }
+      
+        if(row > 1 && col < 7)
+          moves[0] = board[row - 2][col + 1] ;
+      
+        if(row > 0 && col < 6)
+          moves[1] = board[row - 1][col + 2] ;
+      
+        if(row < 7 && col < 6)
+          moves[2] = board[row + 1][col + 2] ;
+      
+        if(row < 6 && col < 7)
+          moves[3] = board [row + 2][col + 1] ;
+      
+        if(row < 6 && col > 0)
+          moves[4] = board [row + 2][col - 1] ;
+      
+        if(row < 7 && col > 1)
+          moves[5] = board [row + 1][col - 2] ;
+      
+        if(row > 0 && col > 1)
+          moves[6] = board [row - 1][col - 2] ;
+      
+        if(row > 1 && col > 0)
+          moves[7] = board [row - 2][col - 1] ;
+      
+        if(isWhite)
+        {
+        for(int i = 0; i < moves.length; i++)
+          if(moves[i].compareTo("_") > 0 || moves[i].equals("o"))
+            return true ;
+        }
+        else
+        {
+        for(int i = 0; i < moves.length; i++)
+          if(moves[i].compareTo("_") < 0 || moves[i].equals("o"))
+            return true ;
+        }
+      return false ;
+    }
+    public void Rook(int row, int col, int newR, int newC, boolean isWhite)
+    {
+      
+      if(Math.abs(row) > 0 && Math.abs(col) > 0)
+        if()
+    }
+        
+    
+  
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    public String[][] getBoard()
+    {
+      String[][] arr = new String[8][8] ;
+      for(int r = 0; r < 8; r++)
+        for(int c = 0; c < 8; c++)
+          arr[r][c] = board[r][c] ;
+      return arr ;
+    }
+  }
