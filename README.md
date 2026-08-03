@@ -1,3 +1,1 @@
-# chessgame
-blal bla bla
-*********
+Hello, and welcome to my chess program! I began working on this project during my sophomore year of high school, and it features a comprehensive two-player set-up that detects illegal moves and alternates between players. It is obviously limited, but I believe it was an impressive personal endeavor at the time, a product of my early obsession with both chess and programming!
